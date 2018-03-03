@@ -21,7 +21,7 @@ public class ZkTest {
 		
 		while (true) {
 			
-			
+		System.out.println("新的东西");	
 			
 		}
 	}
