@@ -6,5 +6,5 @@ import java.lang.annotation.Target;
 public @interface RPC {
 
 	
-	public String value="";
+	public String value=" ";
 }
