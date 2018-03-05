@@ -1,9 +1,9 @@
-package com.wqj.nettyTest;
+package com.wqj.zk;
 
 import org.I0Itec.zkclient.ZkClient;
 import org.apache.zookeeper.CreateMode;
 
-public class ZkTest2 {
+public class ZkTest3 {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -11,7 +11,7 @@ public class ZkTest2 {
 		//创建节点
 		if(client.exists("/wuqingjie")) {
 //			client.createPersistent("/wuqingjie");
-			client.create("/wuqingjie/test2", "test2",CreateMode.EPHEMERAL);
+			client.create("/wuqingjie/test3", "test3",CreateMode.EPHEMERAL);
 		}
 		
 		//创建子节点

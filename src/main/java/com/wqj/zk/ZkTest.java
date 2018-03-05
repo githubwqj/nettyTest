@@ -1,4 +1,4 @@
-package com.wqj.nettyTest;
+package com.wqj.zk;
 
 import org.I0Itec.zkclient.ZkClient;
 import org.apache.zookeeper.CreateMode;
