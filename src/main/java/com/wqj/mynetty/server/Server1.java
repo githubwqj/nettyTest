@@ -4,8 +4,10 @@ import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
 public class Server1 {
@@ -18,35 +20,35 @@ public class Server1 {
 	
 	
 	public void startServer() throws Exception{
-		EventLoopGroup eventLoopGroup = null;
+		EventLoopGroup bossLoopGroup = new NioEventLoopGroup();
+		EventLoopGroup workLoopGroup = new NioEventLoopGroup(); 
 		try {
 			//server端引导类
 			ServerBootstrap serverBootstrap = new ServerBootstrap();
-			eventLoopGroup = new NioEventLoopGroup();
-			serverBootstrap.group(eventLoopGroup)//多线程处理
+			serverBootstrap.group(bossLoopGroup,workLoopGroup)//多线程处理
 			.channel(NioServerSocketChannel.class)//指定通道类型为nioscoket类型
-			.localAddress("localhost", port)
-			.childHandler(new ChannelInitializer<Channel>() {
-
+			.childHandler(new ChannelInitializer<SocketChannel>() {
 				@Override
-				protected void initChannel(Channel channel) throws Exception {
+				protected void initChannel(SocketChannel channel) throws Exception {
 					// TODO Auto-generated method stub
 					channel.pipeline().addLast(new ServerHandler1());
 				}
-				
-			});
-			
+			})
+			.option(ChannelOption.SO_BACKLOG, 128)
+			.childOption(ChannelOption.SO_KEEPALIVE, true);
 		//最后绑定服务器等待直接绑定完成,调用sync()方法阻塞知道服务器完成绑定,然后等待通道关闭,sync是同步锁	
-		ChannelFuture channelFuture = serverBootstrap.bind().sync();
+		ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
 		System.out.println("开始监听端口"+channelFuture.channel());
 		channelFuture.channel().close().sync();
+		System.out.println("已关闭通道:"+channelFuture.channel());
 		}finally {
-			eventLoopGroup.shutdownGracefully().sync();
+			bossLoopGroup.shutdownGracefully().sync();
+			workLoopGroup.shutdownGracefully().sync();
 		}
 		
 	}
 	
 	public static void main(String[] args) throws Exception {
-		new Server1(2000).startServer();
+		new Server1(8080).startServer();
 	}
 }
