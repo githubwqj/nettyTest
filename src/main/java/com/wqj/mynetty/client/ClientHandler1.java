@@ -8,27 +8,27 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 
 public class ClientHandler1 extends ChannelInboundHandlerAdapter{
 
-	@Override
-	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-		// TODO Auto-generated method stub
-	  ByteBuf m = (ByteBuf) msg; // (1)
-        try {
-            long currentTimeMillis = (m.readUnsignedInt() - 2208988800L) * 1000L;
-            System.out.println(new Date(currentTimeMillis));
-            ctx.close();
-        } finally {
-            m.release();
-        }
-	}
+	 @Override
+	    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+	        // Send the message to Server
+	        ctx.writeAndFlush("firstMessage".getBytes());
+	    }
 
-	@Override
-	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-		// TODO Auto-generated method stub
-		 cause.printStackTrace();
-	     ctx.close();
-	}
+	    @Override
+	    public void channelRead(ChannelHandlerContext ctx, Object msg) { // (2)
+	        ByteBuf buf = (ByteBuf) msg;
+	        byte[] req = new byte[buf.readableBytes()];
+	        buf.readBytes(req);
+	        try {
+	            String body = new String(req, "UTF-8");
+	        }catch (Exception e){
+	            e.printStackTrace();
+	        }
+	    }
 
-
-
-	
+	    @Override
+	    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) { // (4)
+	        // Close the connection when an exception is raised.
+	        ctx.close();
+	    }
 }
