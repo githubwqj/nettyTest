@@ -31,7 +31,7 @@ public class Server1 {
 				@Override
 				protected void initChannel(Channel channel) throws Exception {
 					// TODO Auto-generated method stub
-					
+					channel.pipeline().addLast(new ServerHandler1());
 				}
 				
 			});
