@@ -1,4 +1,4 @@
-package com.wqj.mynetty.step3.client;
+package com.wqj.mynetty.step2.client;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
@@ -9,12 +9,12 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
-public class Client1 {
+public class Client2 {
 
 	private final String host;
 	private final int port;
 	
-	public Client1(String host,int port) {
+	public Client2(String host,int port) {
 		this.host = host;
 		this.port = port;
 	}
@@ -31,7 +31,7 @@ public class Client1 {
 					@Override
 					protected void initChannel(SocketChannel socketChannel) throws Exception {
 						// TODO Auto-generated method stub
-						socketChannel.pipeline().addLast(new ClientHandler1());
+						socketChannel.pipeline().addLast(new ClientHandler2());
 					}
 				});
 		//连接服务器
@@ -46,6 +46,6 @@ public class Client1 {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		new Client1("localhost",8080).startConnect();
+		new Client2("localhost",8080).startConnect();
 	}
 }

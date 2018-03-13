@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package com.wqj.mynetty.step2.server;
+package com.wqj.mynetty.step3.server;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -25,7 +25,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  * Handler implementation for the echo server.
  */
 @Sharable
-public class ServerHandler1 extends ChannelInboundHandlerAdapter {
+public class ServerHandler3 extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {

@@ -2,6 +2,8 @@ package com.wqj.mynetty.step1.client;
 
 import java.util.Date;
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
+
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -11,16 +13,20 @@ public class ClientHandler1 extends ChannelInboundHandlerAdapter{
 	 @Override
 	    public void channelActive(ChannelHandlerContext ctx) throws Exception {
 	        // Send the message to Server
-	        ctx.writeAndFlush("firstMessage".getBytes());
+	     System.out.println("客户端向服务器发送数据");   
+		 ctx.writeAndFlush("firstMessage".getBytes());
+	        
 	    }
 
 	    @Override
 	    public void channelRead(ChannelHandlerContext ctx, Object msg) { // (2)
-	        ByteBuf buf = (ByteBuf) msg;
+	        System.err.println("收到服务端数据");
+	    	ByteBuf buf = (ByteBuf) msg;
 	        byte[] req = new byte[buf.readableBytes()];
 	        buf.readBytes(req);
 	        try {
 	            String body = new String(req, "UTF-8");
+	            System.out.println(body);
 	        }catch (Exception e){
 	            e.printStackTrace();
 	        }
@@ -31,4 +37,5 @@ public class ClientHandler1 extends ChannelInboundHandlerAdapter{
 	        // Close the connection when an exception is raised.
 	        ctx.close();
 	    }
+	    
 }

@@ -1,4 +1,4 @@
-package com.wqj.mynetty.step2.client;
+package com.wqj.mynetty.step3.client;
 
 import java.util.Date;
 
@@ -6,7 +6,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
-public class ClientHandler1 extends ChannelInboundHandlerAdapter{
+public class ClientHandler3 extends ChannelInboundHandlerAdapter{
 
 	 @Override
 	    public void channelActive(ChannelHandlerContext ctx) throws Exception {

@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package com.wqj.mynetty.step3.server;
+package com.wqj.mynetty.step2.server;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -25,15 +25,16 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  * Handler implementation for the echo server.
  */
 @Sharable
-public class ServerHandler1 extends ChannelInboundHandlerAdapter {
+public class ServerHandler2 extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
+    	System.out.println("接受到客户端发来的消息");
         String body = (String) msg;
         System.out.println(body);
         String req = "感谢关注，希望在这里找到你想要的。" + System.getProperty("line.separator");
         ByteBuf resp = Unpooled.copiedBuffer(req.getBytes());
-        ctx.writeAndFlush(resp);
+        ctx.write(resp);
     }
 
     @Override

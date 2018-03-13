@@ -14,11 +14,11 @@ import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 
-public class Server1 {
+public class Server2 {
 
 	private final int port;
 	
-	public Server1(int port) {
+	public Server2(int port) {
 		this.port = port;
 	}
 	
@@ -40,7 +40,7 @@ public class Server1 {
 					channel.pipeline()
 						.addLast(new LineBasedFrameDecoder(1024))//重点
 						.addLast(new StringDecoder()) //重点
-						.addLast(new ServerHandler1());
+						.addLast(new ServerHandler2());
 				}
 			});
 			
@@ -59,6 +59,6 @@ public class Server1 {
 	
 	public static void main(String[] args) throws Exception {
 		
-		new Server1(8080).startServer();
+		new Server2(8080).startServer();
 	}
 }

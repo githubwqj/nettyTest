@@ -31,13 +31,21 @@ public class ServerHandler1 extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         String body = (String) msg;
         System.out.println(body);
-        String req = "感谢关注，希望在这里找到你想要的。" + System.getProperty("line.separator");
+        String req = "已接收到数据" + System.getProperty("line.separator");
         ByteBuf resp = Unpooled.copiedBuffer(req.getBytes());
-        ctx.writeAndFlush(resp);
+        ctx.write(resp);
     }
 
-    @Override
+//  @Override
+//	public void channelActive(ChannelHandlerContext ctx) throws Exception {
+//		// TODO Auto-generated method stub
+//    	System.out.println("接受到数据:"+"channelActive");
+//		super.channelActive(ctx);
+//	}
+
+	@Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
+		System.out.println("channelReadComplete");
         ctx.flush();
     }
 
