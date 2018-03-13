@@ -17,48 +17,41 @@ import io.netty.handler.logging.LoggingHandler;
 public class Server2 {
 
 	private final int port;
-	
+
 	public Server2(int port) {
 		this.port = port;
 	}
-	
-	
-	public void startServer() throws Exception{
+
+	public void startServer() throws Exception {
 		EventLoopGroup bossLoopGroup = new NioEventLoopGroup(1);
-		EventLoopGroup workLoopGroup = new NioEventLoopGroup(); 
+		EventLoopGroup workLoopGroup = new NioEventLoopGroup();
 		try {
-			//server端引导类
+			// server端引导类
 			ServerBootstrap serverBootstrap = new ServerBootstrap();
-			serverBootstrap.group(bossLoopGroup,workLoopGroup)//多线程处理
-			.option(ChannelOption.SO_BACKLOG, 1024)
-			.channel(NioServerSocketChannel.class)//指定通道类型为nioscoket类型
-			.handler(new LoggingHandler(LogLevel.INFO))
-			.childHandler(new ChannelInitializer<SocketChannel>() {
-				@Override
-				public void initChannel(SocketChannel channel) throws Exception {
-					// TODO Auto-generated method stub
-					channel.pipeline()
-						.addLast(new LineBasedFrameDecoder(1024))//重点
-						.addLast(new StringDecoder()) //重点
-						.addLast(new ServerHandler2());
-				}
-			});
-			
-//			.childOption(ChannelOption.SO_KEEPALIVE, true);
-		//最后绑定服务器等待直接绑定完成,调用sync()方法阻塞知道服务器完成绑定,然后等待通道关闭,sync是同步锁	
-		ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
-		System.out.println("开始监听端口"+channelFuture.channel());
-		channelFuture.channel().closeFuture().sync();
-		System.out.println("已关闭通道:"+channelFuture.channel());
-		}finally {
+			serverBootstrap.group(bossLoopGroup, workLoopGroup)// 多线程处理
+					.channel(NioServerSocketChannel.class)// 指定通道类型为nioscoket类型
+					.childHandler(new ChannelInitializer<SocketChannel>() {
+						@Override
+						public void initChannel(SocketChannel channel) throws Exception {
+							// TODO Auto-generated method stub
+							channel.pipeline().addLast(new ServerHandler2());
+						}
+					}).option(ChannelOption.SO_BACKLOG, 128).childOption(ChannelOption.SO_KEEPALIVE, true);
+
+			// 最后绑定服务器等待直接绑定完成,调用sync()方法阻塞知道服务器完成绑定,然后等待通道关闭,sync是同步锁
+			ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
+			System.out.println("开始监听端口" + channelFuture.channel());
+			channelFuture.channel().closeFuture().sync();
+			System.out.println("已关闭通道:" + channelFuture.channel());
+		} finally {
 			bossLoopGroup.shutdownGracefully().sync();
 			workLoopGroup.shutdownGracefully().sync();
 		}
-		
+
 	}
-	
+
 	public static void main(String[] args) throws Exception {
-		
+
 		new Server2(8080).startServer();
 	}
 }

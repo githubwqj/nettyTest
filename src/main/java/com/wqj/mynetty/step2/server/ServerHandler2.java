@@ -17,6 +17,8 @@ package com.wqj.mynetty.step2.server;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -27,25 +29,44 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 @Sharable
 public class ServerHandler2 extends ChannelInboundHandlerAdapter {
 
-    @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) {
-    	System.out.println("接受到客户端发来的消息");
-        String body = (String) msg;
-        System.out.println(body);
-        String req = "感谢关注，希望在这里找到你想要的。" + System.getProperty("line.separator");
-        ByteBuf resp = Unpooled.copiedBuffer(req.getBytes());
-        ctx.write(resp);
-    }
+	/* 接收到数据时调用 */
+	 @Override
+	 public void channelRead(ChannelHandlerContext ctx, Object msg) {
+	 System.out.println("接受到客户端发来的消息");
+	 ByteBuf bf =(ByteBuf) msg;
+	 byte[] req = new byte[bf.readableBytes()];
+	 bf.readBytes(req);
+	 String body = new String(req);
+	 System.out.println(body);
+	 ByteBuf resp = Unpooled.copiedBuffer("123456".getBytes());
+	 ctx.writeAndFlush(resp);
+	 ctx.close();
+	 }
 
-    @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) {
-        ctx.flush();
-    }
 
-    @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
-        // Close the connection when an exception is raised.
-        cause.printStackTrace();
-        ctx.close();
-    }
+	/* 用起来代替channelRead */
+	@Override
+	public void channelActive(final ChannelHandlerContext ctx) throws Exception {
+		// TODO Auto-generated method stub
+		final ByteBuf time = ctx.alloc().buffer(4);
+		time.writeInt((int) (System.currentTimeMillis() / 1000L + 2208988800L));
+		System.out.println("有客户端连接服务器");
+		final ChannelFuture f = ctx.writeAndFlush(time);
+		System.out.println("已将信息发出去");
+//		f.addListener(new ChannelFutureListener() {
+//			public void operationComplete(ChannelFuture future) {
+//				assert f == future;
+//				ctx.close();
+//			}
+//		});
+		// 或者定义一个简单的监听器
+		// f.addListener(ChannelFutureListener.CLOSE);
+	}
+
+	@Override
+	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+		// Close the connection when an exception is raised.
+		cause.printStackTrace();
+		ctx.close();
+	}
 }
