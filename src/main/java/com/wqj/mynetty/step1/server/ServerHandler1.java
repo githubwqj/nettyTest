@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations
  * under the License.
  */
-package com.wqj.mynetty.server;
+package com.wqj.mynetty.step1.server;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;

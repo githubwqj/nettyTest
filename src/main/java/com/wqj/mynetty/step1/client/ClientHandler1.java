@@ -1,4 +1,4 @@
-package com.wqj.mynetty.client;
+package com.wqj.mynetty.step1.client;
 
 import java.util.Date;
 

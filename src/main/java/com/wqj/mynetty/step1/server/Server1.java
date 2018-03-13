@@ -1,4 +1,4 @@
-package com.wqj.mynetty.server;
+package com.wqj.mynetty.step1.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
