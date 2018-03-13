@@ -3,6 +3,7 @@ package com.wqj.mynetty.step2.client;
 import java.util.Date;
 
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
@@ -13,9 +14,10 @@ public class ClientHandler2 extends ChannelInboundHandlerAdapter {
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 		// Send the message to Server
 		System.out.println("客户端发送消息去服务端");
-		final ByteBuf time = ctx.alloc().buffer(4);
-		time.writeInt((int) (System.currentTimeMillis() / 1000L + 2208988800L));
-		ctx.write(time);
+//		final ByteBuf time = ctx.alloc().buffer(4);
+//		time.writeInt((int) (System.currentTimeMillis() / 1000L + 2208988800L));
+		ByteBuf req =	Unpooled.copiedBuffer("客户端消息".getBytes());
+		ctx.write(req);
 		ctx.flush();
 	}
 

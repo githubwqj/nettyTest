@@ -38,7 +38,7 @@ public class ServerHandler2 extends ChannelInboundHandlerAdapter {
 	 bf.readBytes(req);
 	 String body = new String(req);
 	 System.out.println(body);
-	 ByteBuf resp = Unpooled.copiedBuffer("123456".getBytes());
+	 ByteBuf resp = Unpooled.copiedBuffer("服务端消息".getBytes());
 	 ctx.writeAndFlush(resp);
 	 ctx.close();
 	 }
@@ -48,11 +48,11 @@ public class ServerHandler2 extends ChannelInboundHandlerAdapter {
 	@Override
 	public void channelActive(final ChannelHandlerContext ctx) throws Exception {
 		// TODO Auto-generated method stub
-		final ByteBuf time = ctx.alloc().buffer(4);
-		time.writeInt((int) (System.currentTimeMillis() / 1000L + 2208988800L));
+//		final ByteBuf time = ctx.alloc().buffer(4);
+//		time.writeInt((int) (System.currentTimeMillis() / 1000L + 2208988800L));
 		System.out.println("有客户端连接服务器");
-		final ChannelFuture f = ctx.writeAndFlush(time);
-		System.out.println("已将信息发出去");
+//		final ChannelFuture f = ctx.writeAndFlush(time);
+//		System.out.println("已将信息发出去");
 //		f.addListener(new ChannelFutureListener() {
 //			public void operationComplete(ChannelFuture future) {
 //				assert f == future;
