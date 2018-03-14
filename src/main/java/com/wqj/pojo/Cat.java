@@ -1,6 +1,6 @@
-package com.wqj.myannotation.common;
+package com.wqj.pojo;
 
-public class Pig {
+public class Cat {
 	private String name;
 	
 	private String sex;
@@ -30,5 +30,6 @@ public class Pig {
 	public void setAge(Integer age) {
 		this.age = age;
 	}
+	
 	
 }

@@ -1,0 +1,13 @@
+package com.wqj.myannotation.common.service;
+
+import java.util.List;
+
+import com.wqj.myannotation.annotation.NettyCustomer;
+import com.wqj.pojo.User;
+
+@NettyCustomer
+public interface IUserService {
+
+	public List<User> findAll(Integer id);
+	
+}

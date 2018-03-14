@@ -1,4 +1,4 @@
-package com.wqj.myannotation.common;
+package com.wqj.pojo;
 
 public class Dog {
 	private String name;
