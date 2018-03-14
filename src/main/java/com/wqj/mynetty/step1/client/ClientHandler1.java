@@ -1,7 +1,5 @@
 package com.wqj.mynetty.step1.client;
 
-import java.util.Date;
-
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
