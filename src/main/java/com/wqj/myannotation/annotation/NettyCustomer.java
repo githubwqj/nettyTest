@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Component
-public @interface NettyRPCCustomer {
+public @interface NettyCustomer {
 
 	
 	public String value="";
