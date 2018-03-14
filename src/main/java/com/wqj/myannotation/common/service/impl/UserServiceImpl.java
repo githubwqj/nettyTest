@@ -8,7 +8,7 @@ import com.wqj.myannotation.common.service.IUserService;
 import com.wqj.pojo.User;
 
 @NettyProvider
-public class UserServiceImpl implements IUserService {
+public class UserServiceImpl  implements IUserService{
 
 	public List<User> findAll(Integer id) {
 		// TODO Auto-generated method stub
@@ -37,9 +37,9 @@ public class UserServiceImpl implements IUserService {
 		list.add(user2);
 		list.add(user3);
 		list.add(user4);
-		if(id!=null) {
+		if (id != null) {
 			for (User user : list) {
-				if(user.getAge().intValue()!=id.intValue()) {
+				if (user.getAge().intValue() != id.intValue()) {
 					list.remove(user);
 				}
 			}
