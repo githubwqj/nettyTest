@@ -38,13 +38,23 @@ public class UserServiceImpl  implements IUserService{
 		list.add(user3);
 		list.add(user4);
 		if (id != null) {
-			for (User user : list) {
-				if (user.getAge().intValue() != id.intValue()) {
-					list.remove(user);
+			for (int i= list.size()-1;i>=0;i--) {
+				if (list.get(i).getId().intValue() != id.intValue()) {
+					list.remove(i);
 				}
 			}
 		}
 		return list;
+	}
+
+	public String hello(String str) {
+		// TODO Auto-generated method stub
+		return "你好"+str;
+	}
+
+	public List<User> findAlls(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

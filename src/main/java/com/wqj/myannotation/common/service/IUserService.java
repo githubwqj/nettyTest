@@ -15,4 +15,7 @@ public interface IUserService {
 	 */
 	public List<User> findAll(Integer id);
 
+	public String hello(String str);
+	
+	public List<User> findAlls(Integer id);
 }
