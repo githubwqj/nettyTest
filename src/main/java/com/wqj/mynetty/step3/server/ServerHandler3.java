@@ -1,0 +1,85 @@
+/*
+ * Copyright 2012 The Netty Project
+ *
+ * The Netty Project licenses this file to you under the Apache License,
+ * version 2.0 (the "License"); you may not use this file except in compliance
+ * with the License. You may obtain a copy of the License at:
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations
+ * under the License.
+ */
+package com.wqj.mynetty.step3.server;
+
+import java.lang.reflect.Method;
+
+import com.wqj.myenum.RPCStatus;
+import com.wqj.pojo.NettyRequset;
+import com.wqj.pojo.NettyResponse;
+
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
+import io.netty.channel.ChannelHandler.Sharable;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandlerAdapter;
+
+/**
+ * Handler implementation for the echo server.
+ */
+@Sharable
+public class ServerHandler3 extends ChannelInboundHandlerAdapter {
+
+    @Override
+    public void channelRead(ChannelHandlerContext ctx, Object msg) {
+    	NettyResponse response = new NettyResponse();
+    	/*发现rpc调用时为空,直接返回*/
+    	if(msg==null) {
+    		response.setResponse(null);
+    		response.setRpcStatus(RPCStatus.failed);
+    	}else {
+    		NettyRequset requset = (NettyRequset) msg;
+    		if(requset.getClassName()==null||requset.getMethodName()==null) {
+    			response.setResponse(null);
+        		response.setRpcStatus(RPCStatus.failed);
+    		}else {
+    			try {
+    				//先实例对象
+					Object newInstance = Class.forName(requset.getClassName()).newInstance();
+					//在实例方法
+					Method method = newInstance.getClass().getMethod(requset.getMethodName(), requset.getTypes());
+					//通过方法获取返回值
+					Object result = method.invoke(newInstance, requset.getObjects());
+					
+					response.setResponse(result);
+	        		response.setRpcStatus(RPCStatus.succes);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					response.setResponse(null);
+	        		response.setRpcStatus(RPCStatus.failed);
+	        		e.printStackTrace();
+				}
+    		}
+    		
+    		
+    	}
+    	
+        ctx.writeAndFlush(response);
+        ctx.close();
+    }
+
+    @Override
+    public void channelReadComplete(ChannelHandlerContext ctx) {
+        ctx.flush();
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        // Close the connection when an exception is raised.
+        cause.printStackTrace();
+        ctx.close();
+    }
+}
