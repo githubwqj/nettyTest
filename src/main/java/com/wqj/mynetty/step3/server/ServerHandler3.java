@@ -27,10 +27,7 @@ import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
-/**
- * Handler implementation for the echo server.
- */
-@Sharable
+
 public class ServerHandler3 extends ChannelInboundHandlerAdapter {
 
     @Override

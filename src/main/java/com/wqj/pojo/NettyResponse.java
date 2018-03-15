@@ -15,6 +15,7 @@ public class NettyResponse implements Serializable{
 	
 	private RPCStatus rpcStatus; //状态值
 	
+	private Object responseDesc;
 	
 
 	public RPCStatus getRpcStatus() {
@@ -31,6 +32,14 @@ public class NettyResponse implements Serializable{
 
 	public void setResponse(Object response) {
 		this.response = response;
+	}
+
+	public Object getResponseDesc() {
+		return responseDesc;
+	}
+
+	public void setResponseDesc(Object responseDesc) {
+		this.responseDesc = responseDesc;
 	}
 	
 	

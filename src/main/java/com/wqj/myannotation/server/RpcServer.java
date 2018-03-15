@@ -1,6 +1,5 @@
 package com.wqj.myannotation.server;
 
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -10,9 +9,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import com.wqj.myannotation.annotation.NettyCustomer;
 import com.wqj.myannotation.annotation.NettyProvider;
-import com.wqj.mynetty.step2.server.ServerHandler2;
+import com.wqj.mynetty.step3.server.ServerHandler3;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -52,7 +50,7 @@ public class RpcServer implements ApplicationContextAware,InitializingBean{
 							channel.pipeline().addLast(new ObjectDecoder(1024*1024,ClassResolvers.weakCachingConcurrentResolver(this.getClass().getClassLoader())));
 							//添加对象编码器 在服务器对外发送消息的时候自动将实现序列化的POJO对象编码
 							channel.pipeline().addLast(new ObjectEncoder());
-							channel.pipeline().addLast(new ServerHandler2());
+							channel.pipeline().addLast(new ServerHandler3());
 						}
 					})
 					.option(ChannelOption.SO_BACKLOG, 128)
@@ -61,6 +59,13 @@ public class RpcServer implements ApplicationContextAware,InitializingBean{
 			// 最后绑定服务器等待直接绑定完成,调用sync()方法阻塞知道服务器完成绑定,然后等待通道关闭,sync是同步锁
 			ChannelFuture channelFuture = serverBootstrap.bind(8080).sync();
 			System.out.println("开始监听端口" + channelFuture.channel());
+			
+			/**
+			 * 准备将所有的信息注册到zk上
+			 * 
+			 * */
+			
+			
 			channelFuture.channel().closeFuture().sync();
 			System.out.println("已关闭通道:" + channelFuture.channel());
 		} finally {
@@ -76,15 +81,17 @@ public class RpcServer implements ApplicationContextAware,InitializingBean{
 		for (Entry<String, Object> entryset : customerMap.entrySet()) {
 			//将所有的服务者都放到Map中,然后再到zk注册:
 			handlermap.put(entryset.getKey(), entryset.getValue());
-			System.out.println("消费者:" + entryset.getKey() + ":" + entryset.getValue());
-			try {
-				Method method = entryset.getValue().getClass().getMethod("findAll", new Class[] { Integer.class });
-				Object invoke = method.invoke(entryset.getValue(), 1);
-				System.out.println(invoke);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			System.out.println("消费者:" + entryset.getKey() + ":" + entryset.getValue());
+//			try {
+//				Method method = entryset.getValue().getClass().getMethod("findAll", new Class[] { Integer.class });
+//				Object invoke = method.invoke(entryset.getValue(), 1);
+//				System.out.println(invoke);
+//			} catch (Exception e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+			
+			
 		}
 	}
 
