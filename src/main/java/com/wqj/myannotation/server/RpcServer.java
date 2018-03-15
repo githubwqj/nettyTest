@@ -1,6 +1,7 @@
 package com.wqj.myannotation.server;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -28,6 +29,8 @@ import io.netty.handler.codec.serialization.ObjectEncoder;
 public class RpcServer implements ApplicationContextAware,InitializingBean{
 
 	private String serverAddres;
+	
+	private Map<String,Object> handlermap = new HashMap<String, Object>();
 	
 //	private String
 	
@@ -71,6 +74,8 @@ public class RpcServer implements ApplicationContextAware,InitializingBean{
 		// TODO Auto-generated method stub
 		Map<String, Object> customerMap = ctx.getBeansWithAnnotation(NettyProvider.class);
 		for (Entry<String, Object> entryset : customerMap.entrySet()) {
+			//将所有的服务者都放到Map中,然后再到zk注册:
+			handlermap.put(entryset.getKey(), entryset.getValue());
 			System.out.println("消费者:" + entryset.getKey() + ":" + entryset.getValue());
 			try {
 				Method method = entryset.getValue().getClass().getMethod("findAll", new Class[] { Integer.class });
