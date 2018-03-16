@@ -5,7 +5,7 @@ import com.wqj.pojo.Student;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
-public class ClientHandler2 extends ChannelInboundHandlerAdapter {
+public class ClientHandler3 extends ChannelInboundHandlerAdapter {
 
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
