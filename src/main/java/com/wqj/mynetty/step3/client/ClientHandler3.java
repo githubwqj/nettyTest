@@ -7,16 +7,16 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 
 public class ClientHandler3 extends ChannelInboundHandlerAdapter {
 
-	@Override
-	public void channelActive(ChannelHandlerContext ctx) throws Exception {
-		System.out.println("连接上服务器,准备发送数据1");
-		// Send the message to Server
-		Student student =new Student();
-		student.setAge(18);
-		student.setName("张三");
-		System.out.println("连接上服务器,准备发送数据2");
-		ctx.writeAndFlush(student);
-	}
+//	@Override
+//	public void channelActive(ChannelHandlerContext ctx) throws Exception {
+//		System.out.println("连接上服务器,准备发送数据1");
+//		// Send the message to Server
+//		Student student =new Student();
+//		student.setAge(18);
+//		student.setName("张三");
+//		System.out.println("连接上服务器,准备发送数据2");
+//		ctx.writeAndFlush(student);
+//	}
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) { // (2)

@@ -52,7 +52,4 @@ public class Client2 {
 		}
 	}
 
-	public static void main(String[] args) throws Exception {
-		new Client2("localhost", 8080).startConnect();
-	}
 }
