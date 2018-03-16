@@ -20,10 +20,10 @@ public class ClientHandler3 extends ChannelInboundHandlerAdapter {
 
 	@Override
 	public void channelRead(ChannelHandlerContext ctx, Object msg) { 
-		Object obj;
-		synchronized (obj) {
-            obj.wait(); // 未收到响应，使线程等待
-        }
+//		Object obj = Client3 ;
+//		synchronized (obj) {
+//            obj.wait(); // 未收到响应，使线程等待
+//        }
 		System.out.println("接收到服务端消息:"+msg);
 		System.out.println(msg);
 	}
