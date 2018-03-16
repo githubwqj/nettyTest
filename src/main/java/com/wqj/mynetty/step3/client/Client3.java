@@ -19,6 +19,7 @@ public class Client3 {
 	private final String host;
 	private final int port;
 
+	public Object obj = new Object();
 	public Client3(String host, int port) {
 		this.host = host;
 		this.port = port;
@@ -48,6 +49,9 @@ public class Client3 {
 			
 			//通过 通道 直接发送消息
 			channelFuture.channel().writeAndFlush(nettyRequset).sync();
+			synchronized (obj) {
+                obj.wait(); // 未收到响应，使线程等待
+            }
 			
 			// 等到其拿到结果 才将其关闭
 			channelFuture.channel().closeFuture().sync();
